@@ -1,0 +1,3 @@
+[submodule "habit-tracker-nextjs-backend"]
+	path = backend
+	url = https://github.com/renanalencar/habit-tracker-nextjs-backend

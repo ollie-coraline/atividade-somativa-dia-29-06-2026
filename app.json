@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Habit Tracker",
+    "slug": "habit-tracker-expo",
+    "version": "1.0.0",
+    "scheme": "habit-tracker-expo",
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-font"
+    ],
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F5F5F5"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.habittracker"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#F5F5F5"
+      },
+      "package": "com.example.habittracker"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5fe4ab96-15b8-4692-a0b5-e840c3908909"
+      }
+    }
+  }
+}
