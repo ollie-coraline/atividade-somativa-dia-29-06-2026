@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useRouter } from "expo-router";
 import HabitList from "../../src/components/HabitList";
 import { useHabitStore } from "../../src/store/useHabitStore";
 import { useAuthStore } from "../../src/store/useAuthStore";
@@ -38,7 +39,8 @@ export default function HomeScreen() {
     createHabit,
   } = useHabitStore();
 
-  const { token } = useAuthStore();
+  const { token, user } = useAuthStore();
+  const router = useRouter();
 
   const [logoError, setLogoError] = useState<boolean>(false);
 
@@ -52,6 +54,38 @@ export default function HomeScreen() {
   useEffect(() => {
     loadHabits();
   }, [token]);
+
+  if (!user) {
+    return (
+      <SafeAreaView
+        style={[
+          styles.container,
+          { paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0 },
+        ]}
+      >
+        <View style={styles.center}>
+          <Text style={styles.title}>Acesso aos Hábitos</Text>
+          <Text style={styles.message}>
+            Para acessar suas tarefas, faça login ou crie uma conta.
+          </Text>
+          <View style={styles.actions}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => router.push('/signup')}
+            >
+              <Text style={styles.buttonText}>Criar Conta</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.outlineButton]}
+              onPress={() => router.push('/login')}
+            >
+              <Text style={[styles.linkText]}>Já tenho conta</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const handleCreateHabit = async () => {
     if (!newHabitName.trim()) return;
@@ -231,7 +265,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#FFFFFF",
+    color: "#222",
     paddingHorizontal: 16,
   },
   logo: {
@@ -262,6 +296,42 @@ const styles = StyleSheet.create({
   addButtonText: {
     color: "#FFF",
     fontWeight: "bold",
+  },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  message: {
+    textAlign: "center",
+    color: "#555",
+    fontSize: 16,
+    marginBottom: 18,
+    lineHeight: 22,
+  },
+  actions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: globalStyles.primaryColor,
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    elevation: 2,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "700",
+    fontSize: 15,
+  },
+  outlineButton: {
+    backgroundColor: "transparent",
+    marginLeft: 12,
+  },
+  outlineButtonText: {
+    color: globalStyles.primaryColor,
   },
   filterContainer: {
     flexDirection: "row",
@@ -368,4 +438,9 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
   },
+  linkText: {
+    color: globalStyles.primaryColor,
+    fontWeight: '600',
+    fontSize: 15,
+  }
 });
