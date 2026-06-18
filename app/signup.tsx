@@ -51,7 +51,6 @@ export default function SignupScreen() {
       ]}
     >
       {/* Back button for non-tab flows */}
-      <BackButton />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Cadastro</Text>
         <Text style={styles.headerSubtitle}>Crie sua conta para começar a usar.</Text>

@@ -50,7 +50,6 @@ export default function LoginScreen() {
       ]}
     >
       {/* Back button for non-tab flows */}
-      <BackButton />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Entrar</Text>
         <Text style={styles.headerSubtitle}>Acesse sua conta para continuar.</Text>

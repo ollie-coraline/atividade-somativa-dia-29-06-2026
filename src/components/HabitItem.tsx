@@ -8,25 +8,22 @@ import {
   CheckboxIcon,
 } from "@/components/ui/checkbox";
 import { CheckIcon } from "@/components/ui/icon";
+import { useHabitStore } from '../store/useHabitStore';
 
 interface HabitItemProps {
   habit: Habit;
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
 }
 
-export default function HabitItem({
-  habit,
-  onToggle,
-  onDelete,
-}: HabitItemProps) {
+export default function HabitItem({ habit }: HabitItemProps) {
   const router = useRouter();
+  const toggleHabit = useHabitStore((s) => s.toggleHabit);
+  const deleteHabit = useHabitStore((s) => s.deleteHabit);
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.checkButton}
-        onPress={() => onToggle(habit.id)}
+        onPress={() => toggleHabit(habit.id)}
       >
         <Text style={styles.checkIcon}>{habit.completedToday ? '✅' : '⬜'}</Text>
       </TouchableOpacity>
@@ -71,7 +68,7 @@ export default function HabitItem({
 
       <TouchableOpacity
         style={styles.deleteButton}
-        onPress={() => onDelete(habit.id)}
+        onPress={() => deleteHabit(habit.id)}
       >
         <Text style={styles.deleteText}>🗑</Text>
       </TouchableOpacity>

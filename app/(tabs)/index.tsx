@@ -1,4 +1,3 @@
-import "../../global.css";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -55,38 +54,6 @@ export default function HomeScreen() {
     loadHabits();
   }, [token]);
 
-  if (!user) {
-    return (
-      <SafeAreaView
-        style={[
-          styles.container,
-          { paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0 },
-        ]}
-      >
-        <View style={styles.center}>
-          <Text style={styles.title}>Acesso aos Hábitos</Text>
-          <Text style={styles.message}>
-            Para acessar suas tarefas, faça login ou crie uma conta.
-          </Text>
-          <View style={styles.actions}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => router.push('/signup')}
-            >
-              <Text style={styles.buttonText}>Criar Conta</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.outlineButton]}
-              onPress={() => router.push('/login')}
-            >
-              <Text style={[styles.linkText]}>Já tenho conta</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </SafeAreaView>
-    );
-  }
-
   const handleCreateHabit = async () => {
     if (!newHabitName.trim()) return;
     await createHabit({
@@ -100,11 +67,7 @@ export default function HomeScreen() {
     setFrequency("diário");
   };
 
-  const filteredHabits = habits.filter((habit) => {
-    if (filter === "completed") return habit.completedToday;
-    if (filter === "pending") return !habit.completedToday;
-    return true;
-  });
+  // agora o filtro e os dados são consumidos pela própria HabitList via store
 
   return (
     <SafeAreaView
@@ -148,18 +111,9 @@ export default function HomeScreen() {
                 ? "Concluídos"
                 : "Pendentes";
           return (
-            // <Pressable
-            //   key={f}
-            //   style={[styles.filterButton, isActive ? styles.filterButtonActive : styles.filterButtonInactive]}
-            //   onPress={() => setFilter(f)}
-            // >
-            //   <Text style={isActive ? styles.filterTextActive : styles.filterTextInactive}>{label}</Text>
-            // </Pressable>
-            <ButtonGroup>
+            <ButtonGroup key={f}>
               <Button onPress={() => setFilter(f)}>
                 <ButtonText>{label}</ButtonText>
-                {/* <ButtonSpinner /> */}
-                {/* <ButtonIcon /> */}
               </Button>
             </ButtonGroup>
           );
@@ -173,11 +127,7 @@ export default function HomeScreen() {
           style={styles.loader}
         />
       ) : (
-        <HabitList
-          habits={filteredHabits}
-          onToggle={toggleHabit}
-          onDelete={deleteHabit}
-        />
+        <HabitList />
       )}
 
       {/* Modal de Criação de Hábito */}
